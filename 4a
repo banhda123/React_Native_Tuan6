@@ -1,0 +1,167 @@
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons'; // Import for icons
+
+const products = [
+  { id: '1', name: 'Ca nấu lẩu, nấu mì mini', shop: 'Shop Devang', image: require('./image/ca_nau_lau.png') },
+  { id: '2', name: '1KG KHÔ GÀ BƠ TỎI', shop: 'Shop LTD Food', image: require('./image/ga_bo_toi.png') },
+  { id: '3', name: 'Xe cần cẩu đa năng', shop: 'Thế giới đồ chơi', image: require('./image/xa_can_cau.png') },
+  { id: '4', name: 'Đồ chơi dạng mô hình', shop: 'Thế giới đồ chơi', image: require('./image/do_choi_dang_mo_hinh.png') },
+  { id: '5', name: 'Lãnh đạo giản đơn', shop: 'Minh Long Book', image: require('./image/lanh_dao_gian_don.png') },
+  { id: '6', name: 'Hiểu lòng con trẻ', shop: 'Minh Long Book', image: require('./image/hieu_long_con_tre.png') },
+];
+
+const App = () => {
+  const [selectedProductId, setSelectedProductId] = useState(null);
+
+  const handlePress = (id) => {
+    setSelectedProductId(id); 
+  };
+
+  const renderItem = ({ item }) => {
+    const isSelected = item.id === selectedProductId; 
+    return (
+      <TouchableOpacity
+        onPress={() => handlePress(item.id)}
+        style={[styles.itemContainer, isSelected && styles.selectedItem]}
+      >
+        <Image source={item.image} style={styles.productImage} />
+        <View style={styles.textContainer}>
+          <Text style={styles.productName}>{item.name}</Text>
+          <Text style={styles.shopName}>{item.shop}</Text>
+        </View>
+        <TouchableOpacity style={styles.chatButton}>
+          <Text style={styles.chatButtonText}>Chat</Text>
+        </TouchableOpacity>
+      </TouchableOpacity>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.iconButton}>
+          <Icon name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Chat</Text>
+        <TouchableOpacity style={styles.iconButton}>
+          <Icon name="cart" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Message Banner */}
+      <View style={styles.messageBanner}>
+        <Text style={styles.messageText}>
+          Bạn có thắc mắc với sản phẩm vừa xem? Đừng ngại chát với shop!
+        </Text>
+      </View>
+
+      {/* Chat List */}
+      <FlatList
+        data={products}
+        keyExtractor={item => item.id}
+        renderItem={renderItem}
+      />
+
+      {/* Footer / Navigation Bar */}
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.navButton}>
+          <Icon name="grid-outline" size={28} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton}>
+          <Icon name="home-outline" size={28} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton}>
+          <Icon name="arrow-back-outline" size={28} color="#fff" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  header: {
+    backgroundColor: '#007AFF', 
+    height: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  headerText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  iconButton: {
+    padding: 10,
+  },
+  messageBanner: {
+    backgroundColor: '#fff',
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  messageText: {
+    fontSize: 14,
+    color: '#333',
+    textAlign: 'center',
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    marginBottom: 10,
+    padding: 15,
+    borderRadius: 8,
+  },
+  selectedItem: {
+    backgroundColor: '#d3eaff', 
+  },
+  productImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+  },
+  textContainer: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  productName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  shopName: {
+    fontSize: 14,
+    color: '#777',
+  },
+  chatButton: {
+    backgroundColor: '#ff3b30',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    
+  },
+  chatButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  footer: {
+    backgroundColor: '#007AFF',
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+  },
+  navButton: {
+    padding: 10,
+  },
+});
+
+export default App;
