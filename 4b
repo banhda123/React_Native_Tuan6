@@ -1,0 +1,171 @@
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+const products = [
+  { id: '1', name: 'Cáp chuyển từ Cổng USB sang PS2', price: '69.900 đ', rating: 4, discount: '39%', image: require('./image/Giacchuyen.png') },
+  { id: '2', name: 'Cáp chuyển từ Cổng USB sang PS2', price: '69.900 đ', rating: 4, discount: '39%', image: require('./image/daycam.png') },
+  { id: '3', name: 'Cáp chuyển từ Cổng USB sang PS2', price: '69.900 đ', rating: 4, discount: '39%', image: require('./image/Tonghop.png') },
+  { id: '4', name: 'Cáp chuyển từ Cổng USB sang PS2', price: '69.900 đ', rating: 4, discount: '39%', image: require('./image/Giaccam.png') },
+  { id: '5', name: 'Cáp chuyển từ Cổng USB sang PS2', price: '69.900 đ', rating: 4, discount: '39%', image: require('./image/Daychuyen.png') },
+  { id: '6', name: 'Cáp chuyển từ Cổng USB sang PS2', price: '69.900 đ', rating: 4, discount: '39%', image: require('./image/Daymautim.png') },
+];
+
+const App = () => {
+  const [selectedProductId, setSelectedProductId] = useState(null);
+
+  const handlePress = (id) => {
+    setSelectedProductId(id); 
+  };
+
+  const renderItem = ({ item }) => {
+    const isSelected = item.id === selectedProductId;
+    return (
+      <TouchableOpacity
+        onPress={() => handlePress(item.id)}
+        style={[styles.itemContainer, isSelected && styles.selectedItem]}
+      >
+        <Image source={item.image} style={styles.productImage} />
+        <View style={styles.textContainer}>
+          <Text style={styles.productName}>{item.name}</Text>
+          <View style={styles.priceRow}>
+            <Text style={styles.productPrice}>{item.price}</Text>
+            <Text style={styles.discount}>-{item.discount}</Text>
+          </View>
+          <View style={styles.ratingRow}>
+            <Text style={styles.ratingText}>{'★'.repeat(item.rating)}</Text>
+            <Text style={styles.ratingCount}>(15)</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.iconButton}>
+          <Icon name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Dây cáp USB</Text>
+        <TouchableOpacity style={styles.iconButton}>
+          <Icon name="cart" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Product List */}
+      <FlatList
+        data={products}
+        keyExtractor={item => item.id}
+        renderItem={renderItem}
+        numColumns={2} // Danh sách với 2 cột
+      />
+
+      {/* Footer / Navigation Bar */}
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.navButton}>
+          <Icon name="grid-outline" size={28} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton}>
+          <Icon name="home-outline" size={28} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton}>
+          <Icon name="arrow-back-outline" size={28} color="#fff" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  header: {
+    backgroundColor: '#007AFF',
+    height: 60, // Chiều cao cố định cho header
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  headerText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  iconButton: {
+    padding: 10,
+  },
+  itemContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    margin: 10,
+    padding: 10,
+    borderRadius: 8,
+    // Sử dụng flexbox để phân bổ đều chiều ngang các mục
+  },
+  selectedItem: {
+    backgroundColor: '#d3eaff',
+  },
+  productImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+  },
+  textContainer: {
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  productName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  productPrice: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#ff3b30',
+  },
+  discount: {
+    fontSize: 14,
+    color: '#888',
+    marginLeft: 5,
+  },
+  ratingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  ratingText: {
+    fontSize: 14,
+    color: '#ffd700',
+  },
+  ratingCount: {
+    fontSize: 14,
+    color: '#777',
+    marginLeft: 5,
+  },
+  footer: {
+    backgroundColor: '#007AFF',
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+  },
+  navButton: {
+    padding: 10,
+  },
+});
+
+export default App;
